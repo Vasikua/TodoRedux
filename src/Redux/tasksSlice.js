@@ -12,40 +12,24 @@ const slice = createSlice({
         ]
     },
     reducers: {
-        addTask(state, action) {
-            return {
-                ...state,
-                items: [...state.items, action.payload]
-            };
-
+        addTask: (state, action) => {
+            state.items.push(action.payload)
         },
-        deleteTask(state, action) {
-            return {
-                ...state,
-                items: state.items.filter(task => task.id !== action.payload)
-            };
 
 
+        deleteTask: (state, action) => {
+            state.items = state.items.filter(task => task.id !== action.payload)
         },
-        toggleTaskCompleted(state, action) {
-            return {
-                ...state,
-                items: state.items.map((task) => {
-                    if (task.id !== action.payload) {
-                        return task;
-                    }
-                    return {
-                        ...task,
-                        completed: !task.completed
-                    };
-                })
+        toggleTaskCompleted: (state, action) => {
+            for (const task of state.items) {
+                if (task.id === action.payload) {
+                    task.completed = !task.completed;
+                    break;
+                }
             }
         }
-    },
-
-
-
+    }
 })
-console.log(slice.getInitialState(), "Tasks slice created successfully");
+
 export const { addTask, deleteTask, toggleTaskCompleted } = slice.actions;
 export default slice.reducer;
