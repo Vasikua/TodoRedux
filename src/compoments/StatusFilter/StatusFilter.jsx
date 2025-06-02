@@ -1,22 +1,35 @@
 import { Button } from '../Button/Button';
 import css from './StatusFilter.module.css';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { setStatusFilter } from '../../Redux/actions';  
+import { useSelector,  useDispatch  } from 'react-redux';
+import {setStatusFilter} from '../../Redux/filtersSlice';  
 
 export const StatusFilter = () => {
-    const filter = useSelector(state => state.filters.status);
   const dispatch = useDispatch();
-  const handleFilter = (status) => {
-    dispatch(setStatusFilter(status));
-    console.log(`Filter set to ${status}`);
-}
+  const filter = useSelector((state) => state.filters.status);
+  const handleFilterChange = (filter) => dispatch(setStatusFilter(filter));
+
+
   
     return (
     <div className={css.wrapper}>
-      <Button onClick={()=>handleFilter("All")} >All</Button>
-      <Button onClick={()=>handleFilter("Active")} >Active</Button>
-      <Button onClick={()=>handleFilter("Completed")} >Completed</Button>
+        <Button
+          selected={filter === "all"}
+          onClick={() => handleFilterChange("all")}
+        >
+        All
+        </Button>
+        <Button
+          selected={filter === "active"}
+          onClick={() => handleFilterChange("active")}
+        >
+        Active
+        </Button>
+        <Button
+          selected={filter === "completed"}
+          onClick={() => handleFilterChange("completed")}
+        >
+        Completed
+        </Button>
     </div>
   );
 };
